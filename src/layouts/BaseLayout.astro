@@ -1,0 +1,110 @@
+---
+// Base layout — every page sits inside this shell.
+// Header carries the horizontal lockup (the wide-placement variant);
+// footer carries the tagline. Surfaces step navy-deep → navy → navy-raised.
+import Logo from "../components/Logo.astro";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "SHAEONSPACE — engineer & creator",
+  description = "Personal site of Daniel Ong — building in code, light & sound.",
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <Logo />
+        <nav class="site-nav" aria-label="Primary">
+          <slot name="nav" />
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-inner">
+        <p class="tagline">Building in code, light &amp; sound.</p>
+        <p class="fineprint">&copy; 2026 Daniel Ong</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    background: var(--ss-navy);
+    border-bottom: 1px solid var(--ss-navy-line);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* vertical padding ≈ clear space above/below the 34px-tall lockup */
+    padding-block: 20px;
+  }
+
+  .site-nav {
+    display: flex;
+    gap: 28px;
+  }
+
+  main {
+    min-height: 60vh;
+  }
+
+  .site-footer {
+    background: var(--ss-navy);
+    border-top: 1px solid var(--ss-navy-line);
+    margin-top: 96px;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-block: 28px;
+  }
+
+  .tagline {
+    margin: 0;
+    font-family: var(--ss-body);
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: var(--ss-track-eyebrow);
+    color: var(--ss-gold); /* eyebrow-style label — the approved gold use */
+  }
+
+  .fineprint {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--ss-text-dim);
+  }
+</style>

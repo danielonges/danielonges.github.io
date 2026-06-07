@@ -1,0 +1,123 @@
+/* ============================================================
+   SHAEONSPACE design tokens — v2.0 (2026)
+   "Building in code, light & sound."
+   Drop this file in as-is; it defines tokens only (plus the
+   playhead animation). Apply tokens via the var() references —
+   never hardcode the hex values elsewhere in the codebase.
+   ============================================================ */
+
+:root {
+  /* --- Surfaces (dark-first brand) --- */
+  --ss-navy-deep: #1e2630; /* page background, recessed areas */
+  --ss-navy: #2a3340; /* primary surface & brand base */
+  --ss-navy-raised: #3a4654; /* cards & elevated surfaces */
+  --ss-navy-line: #46525f; /* hairlines, borders, dividers */
+
+  /* --- Accents — display & graphic use only, NEVER body text --- */
+  --ss-gold: #ae925d; /* display type ≥24px, rules, accents on navy */
+  --ss-gold-bright: #c7a86b; /* hover/active state of gold */
+  --ss-red: #b0413e; /* graphic accent ONLY (playhead, icons, rules) — never sets text */
+  --ss-red-bright: #d9605c; /* legible red for links/alerts, LARGE text only (3.5:1 on navy) */
+
+  /* --- Reading colours (all text routes through these) --- */
+  --ss-white: #ffffff; /* highest-emphasis headlines (AAA on navy) */
+  --ss-silver: #d6d6d6; /* high-emphasis text, light-mode surfaces */
+  --ss-text: #c9cdd2; /* default body text on dark (AAA, 8:1 on navy) */
+  --ss-text-dim: #9aa1aa; /* captions & secondary labels (AA, 4.9:1 on navy) */
+
+  /* --- Type --- */
+  --ss-display: "Outfit", "Acre", system-ui, sans-serif;
+  --ss-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  /* --- Tracking (letter-spacing) --- */
+  --ss-track-display: 0.04em; /* H1 all-caps */
+  --ss-track-section: 0.05em; /* H2 all-caps */
+  --ss-track-eyebrow: 0.28em; /* eyebrow/subtitle all-caps — the ONE place wide tracking lives */
+  /* Body copy is ALWAYS zero tracking. There is no token for wide body tracking on purpose. */
+
+  /* --- Layout --- */
+  --ss-maxw: 1080px;
+
+  /* --- Breakpoints (use in media queries as reference values) --- */
+  --ss-bp-sm: 480px; /* large phones */
+  --ss-bp-md: 768px; /* tablets */
+  --ss-bp-lg: 1080px; /* desktop (matches maxw) */
+}
+
+/* Google Fonts import (place in <head> instead if preferred):
+   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+*/
+
+/* --- Base typography (optional starter rules) --- */
+.ss-base {
+  background: var(--ss-navy-deep);
+  color: var(--ss-text);
+  font-family: var(--ss-body);
+  font-size: 16px; /* never smaller for body */
+  line-height: 1.65;
+  letter-spacing: 0; /* body is never tracked wide */
+}
+
+.ss-display {
+  /* Display / H1 */
+  font-family: var(--ss-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--ss-track-display);
+  color: var(--ss-white); /* or var(--ss-gold) at display sizes */
+}
+
+.ss-h2 {
+  /* Section heading */
+  font-family: var(--ss-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--ss-track-section);
+  color: var(--ss-silver);
+}
+
+.ss-eyebrow {
+  /* Eyebrow / subtitle label */
+  font-family: var(--ss-body);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: var(--ss-track-eyebrow);
+  color: var(--ss-gold);
+}
+
+.ss-caption {
+  font-family: var(--ss-body);
+  font-size: 0.85rem;
+  color: var(--ss-text-dim);
+}
+
+/* --- Playhead motion (the ONLY animated brand element) ---
+   One sweep across the waveform on load, settling to rest.
+   Apply .ss-playhead to the red playhead path/rect inside an
+   inline SVG logo. Tune the translateX distances to the width
+   of the waveform in the SVG's own coordinate space. */
+@keyframes ss-playhead-sweep {
+  0% {
+    transform: translateX(var(--ss-sweep-start, -34.6px));
+  }
+  55% {
+    transform: translateX(var(--ss-sweep-end, 80.6px));
+  }
+  70% {
+    transform: translateX(var(--ss-sweep-end, 80.6px));
+  } /* brief hold at right edge */
+  100% {
+    transform: translateX(0);
+  } /* settle to rest */
+}
+
+.ss-playhead {
+  animation: ss-playhead-sweep 1.5s cubic-bezier(0.45, 0.05, 0.25, 1) 0.35s 1 both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ss-playhead {
+    animation: none;
+  }
+}

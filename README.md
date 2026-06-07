@@ -1,43 +1,33 @@
-# Astro Starter Kit: Minimal
+# shaeonspace
 
-```sh
-npm create astro@latest -- --template minimal
+Personal brand website of Daniel Ong — **SHAEONSPACE**, *building in code,
+light & sound*. Built with [Astro](https://astro.build).
+
+## Commands
+
+| Command           | Action                                      |
+| :---------------- | :------------------------------------------ |
+| `npm install`     | Install dependencies                        |
+| `npm run dev`     | Start the dev server at `localhost:4321`    |
+| `npm run build`   | Build the production site to `./dist/`      |
+| `npm run preview` | Preview the build locally before deploying  |
+
+## Structure
+
+```
+src/styles/tokens.css     Brand design tokens — single source of truth for colour & type
+src/styles/global.css     Base styles built on the tokens
+src/layouts/BaseLayout.astro   Page shell (fonts, header, footer)
+src/components/Logo.astro      Horizontal lockup with the animated playhead
+src/pages/                Routes
+public/logos/             Deployable logo SVGs (lockup / horizontal / wordmark / icon)
+docs/brand-rules.md       The full brand rulebook
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Brand
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The visual system is SHAEONSPACE v2.0 — dark-first navy/silver/gold, Outfit +
+Inter, with a logo fusing code brackets, a camera, and an audio waveform.
+All colour routes through the `--ss-*` tokens; the rules (colour roles,
+verified contrast, type scale, logo usage, motion) are documented in
+`docs/brand-rules.md` and enforced via `CLAUDE.md` for agent-assisted work.
