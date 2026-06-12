@@ -154,7 +154,8 @@ const projects = [
         </p>
       </header>
 
-      <div class="player" data-sc-user="https://api.soundcloud.com/users/195955610">
+      <div class="music-stack" data-sc-user="https://api.soundcloud.com/users/195955610">
+      <div class="player">
         <button class="play-btn" type="button" aria-label="Play">
           <svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M4.5 2.5v11l9-5.5z"></path>
@@ -201,6 +202,11 @@ const projects = [
             <span class="player-time">0:00 / 0:00</span>
           </p>
         </div>
+      </div>
+
+      <ol class="tracklist" aria-label="Latest tracks">
+        <li class="track-empty">Loading latest tracks…</li>
+      </ol>
       </div>
     </div>
   </section>
@@ -440,13 +446,16 @@ const projects = [
     margin-top: 12px;
   }
 
+  .music-stack {
+    width: 100%;
+    max-width: 420px;
+    justify-self: end;
+  }
+
   .player {
     display: flex;
     align-items: flex-start;
     gap: 18px;
-    width: 100%;
-    max-width: 400px;
-    justify-self: end;
   }
 
   .play-btn {
@@ -477,11 +486,11 @@ const projects = [
     display: none;
   }
 
-  .player.playing .icon-pause {
+  .music-stack.playing .icon-pause {
     display: block;
   }
 
-  .player.playing .icon-play {
+  .music-stack.playing .icon-play {
     display: none;
   }
 
@@ -514,6 +523,111 @@ const projects = [
   .player-time {
     flex: none;
     font-variant-numeric: tabular-nums;
+  }
+
+  .tracklist {
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 0;
+    border-top: 1px solid var(--ss-navy-line);
+  }
+
+  .track {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 14px 4px;
+    border: none;
+    border-bottom: 1px solid var(--ss-navy-line);
+    background: none;
+    text-align: left;
+    color: var(--ss-text);
+    font-family: var(--ss-body);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+
+  .track:hover {
+    color: var(--ss-white);
+  }
+
+  .track-bars {
+    flex: none;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    width: 16px;
+    height: 14px;
+  }
+
+  .track-bars span {
+    flex: 1;
+    height: 40%;
+    background: var(--ss-text-dim);
+    border-radius: 1px;
+  }
+
+  .track[aria-current="true"] {
+    color: var(--ss-white);
+  }
+
+  .track[aria-current="true"] .track-bars span {
+    background: var(--ss-red);
+  }
+
+  /* Equaliser animation only on the playing row */
+  .music-stack.playing .track[aria-current="true"] .track-bars span {
+    animation: ss-eq 0.9s ease-in-out infinite alternate;
+  }
+
+  .track[aria-current="true"] .track-bars span:nth-child(1) {
+    animation-delay: -0.6s;
+  }
+  .track[aria-current="true"] .track-bars span:nth-child(2) {
+    animation-delay: -0.2s;
+  }
+  .track[aria-current="true"] .track-bars span:nth-child(3) {
+    animation-delay: -0.4s;
+  }
+
+  @keyframes ss-eq {
+    from {
+      height: 25%;
+    }
+    to {
+      height: 100%;
+    }
+  }
+
+  .track-title {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .track-plays {
+    flex: none;
+    font-size: 0.8rem;
+    color: var(--ss-text-dim);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .track-empty {
+    padding: 16px 4px;
+    border-bottom: 1px solid var(--ss-navy-line);
+    font-size: 0.9rem;
+    color: var(--ss-text-dim);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .music-stack.playing .track[aria-current="true"] .track-bars span {
+      animation: none;
+      height: 70%;
+    }
   }
 
   /* --- Contact --- */
@@ -586,7 +700,7 @@ const projects = [
       grid-template-columns: 1fr;
     }
 
-    .player {
+    .music-stack {
       justify-self: start;
     }
   }
@@ -606,30 +720,47 @@ const projects = [
 </style>
 
 <script>
-  // SoundCloud facade player — nothing third-party loads until the first
-  // press of play; then the widget script + a hidden iframe come in and
-  // the red playhead tracks real playback.
-  const player = document.querySelector<HTMLElement>(".player");
-  const btn = player?.querySelector<HTMLButtonElement>(".play-btn");
-  const wave = player?.querySelector<SVGSVGElement>(".waveform");
-  const playhead = player?.querySelector<SVGRectElement>(".playhead");
-  const trackEl = player?.querySelector<HTMLElement>(".player-track");
-  const timeEl = player?.querySelector<HTMLElement>(".player-time");
+  // SoundCloud player via the official Widget API. Nothing third-party loads
+  // on initial paint; the widget is created when the music section scrolls
+  // into view, which populates the track list (titles + play counts) and lets
+  // the red playhead track real playback. Play counts come from the widget's
+  // own getSounds() — no scraping, no credentials.
+  const stack = document.querySelector<HTMLElement>(".music-stack");
+  const btn = stack?.querySelector<HTMLButtonElement>(".play-btn");
+  const wave = stack?.querySelector<SVGSVGElement>(".waveform");
+  const playhead = stack?.querySelector<SVGRectElement>(".playhead");
+  const trackEl = stack?.querySelector<HTMLElement>(".player-track");
+  const timeEl = stack?.querySelector<HTMLElement>(".player-time");
+  const list = stack?.querySelector<HTMLOListElement>(".tracklist");
+  const section = document.querySelector<HTMLElement>("#music");
 
-  if (player && btn && wave && playhead && trackEl && timeEl) {
+  if (stack && btn && wave && playhead && trackEl && timeEl && list && section) {
     const TRAVEL = 232; // playhead travel in viewBox units (x 2 → 234)
     let widget: any = null;
+    let ready: Promise<any> | null = null;
     let playing = false;
     let duration = 0;
+    let rows: HTMLButtonElement[] = [];
 
     const fmt = (ms: number) => {
       const s = Math.max(0, Math.round(ms / 1000));
       return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
     };
 
-    // PLAY_PROGRESS only fires every few hundred ms — dead-reckon between
-    // events so the playhead moves at frame rate. Under reduced motion it
-    // steps on events instead.
+    const fmtPlays = (n: number) => {
+      try {
+        return new Intl.NumberFormat("en-GB", {
+          notation: "compact",
+          maximumFractionDigits: 1,
+        }).format(n);
+      } catch {
+        return String(n);
+      }
+    };
+
+    // PLAY_PROGRESS fires only every few hundred ms — dead-reckon between
+    // events so the playhead moves at frame rate, re-syncing on each event.
+    // Reduced motion steps on events instead.
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let basePos = 0;
     let baseTime = 0;
@@ -655,6 +786,37 @@ const projects = [
       rafId = requestAnimationFrame(tick);
     };
 
+    const setCurrent = (idx: number) => {
+      rows.forEach((r, i) => r.setAttribute("aria-current", i === idx ? "true" : "false"));
+    };
+
+    const renderTracks = (sounds: any[]) => {
+      const top = sounds.filter((s) => s && s.title).slice(0, 3);
+      if (!top.length) {
+        list.innerHTML = '<li class="track-empty">Open SoundCloud for the latest tracks ↗</li>';
+        return;
+      }
+      list.innerHTML = "";
+      rows = top.map((s, i) => {
+        const li = document.createElement("li");
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "track";
+        b.setAttribute("aria-current", "false");
+        b.innerHTML =
+          '<span class="track-bars" aria-hidden="true"><span></span><span></span><span></span></span>' +
+          '<span class="track-title"></span><span class="track-plays"></span>';
+        b.querySelector(".track-title")!.textContent = s.title;
+        if (typeof s.playback_count === "number") {
+          b.querySelector(".track-plays")!.textContent = `${fmtPlays(s.playback_count)} plays`;
+        }
+        b.addEventListener("click", () => widget?.skip(i));
+        li.appendChild(b);
+        list.appendChild(li);
+        return b;
+      });
+    };
+
     const loadApi = () =>
       new Promise<void>((resolve, reject) => {
         if ((window as any).SC) return resolve();
@@ -665,64 +827,77 @@ const projects = [
         document.head.appendChild(el);
       });
 
-    const ensureWidget = async () => {
-      if (widget) return widget;
-      await loadApi();
-      const SC = (window as any).SC;
-      const frame = document.createElement("iframe");
-      frame.title = "SoundCloud player";
-      frame.allow = "autoplay";
-      frame.setAttribute(
-        "style",
-        "position:absolute;left:-9999px;width:2px;height:2px;border:0",
-      );
-      frame.src =
-        "https://w.soundcloud.com/player/?auto_play=true&show_teaser=false&url=" +
-        encodeURIComponent(player.dataset.scUser ?? "");
-      player.appendChild(frame);
-      widget = SC.Widget(frame);
+    // Create the (silent) widget and resolve once it's READY, so the track
+    // list and metadata are queryable. Shared promise — callers await the same.
+    const ensureWidget = () => {
+      if (ready) return ready;
+      ready = (async () => {
+        await loadApi();
+        const SC = (window as any).SC;
+        const frame = document.createElement("iframe");
+        frame.title = "SoundCloud player";
+        frame.allow = "autoplay";
+        frame.setAttribute("style", "position:absolute;left:-9999px;width:2px;height:2px;border:0");
+        frame.src =
+          "https://w.soundcloud.com/player/?auto_play=false&show_teaser=false&url=" +
+          encodeURIComponent(stack.dataset.scUser ?? "");
+        stack.appendChild(frame);
+        const w = SC.Widget(frame);
 
-      widget.bind(SC.Widget.Events.PLAY, () => {
-        playing = true;
-        player.classList.add("playing");
-        btn.setAttribute("aria-label", "Pause");
-        widget.getCurrentSound((s: any) => {
-          if (s?.title) trackEl.textContent = s.title;
+        w.bind(SC.Widget.Events.PLAY, () => {
+          playing = true;
+          stack.classList.add("playing");
+          btn.setAttribute("aria-label", "Pause");
+          w.getCurrentSoundIndex((idx: number) => setCurrent(idx));
+          w.getCurrentSound((s: any) => {
+            if (s?.title) trackEl.textContent = s.title;
+          });
+          w.getDuration((d: number) => {
+            duration = d;
+          });
+          w.getPosition((pos: number) => {
+            basePos = pos;
+            baseTime = performance.now();
+          });
+          startTicking();
         });
-        widget.getDuration((d: number) => {
-          duration = d;
+        w.bind(SC.Widget.Events.PAUSE, () => {
+          playing = false;
+          cancelAnimationFrame(rafId);
+          stack.classList.remove("playing");
+          btn.setAttribute("aria-label", "Play");
         });
-        widget.getPosition((pos: number) => {
-          basePos = pos;
+        w.bind(SC.Widget.Events.PLAY_PROGRESS, (e: any) => {
+          basePos = e.currentPosition;
           baseTime = performance.now();
+          if (reduceMotion || !playing) paint(e.currentPosition);
         });
-        startTicking();
+        w.bind(SC.Widget.Events.FINISH, () => {
+          cancelAnimationFrame(rafId);
+          basePos = 0;
+          playhead.setAttribute("transform", "translate(0 0)");
+          timeEl.textContent = `0:00 / ${fmt(duration)}`;
+        });
+
+        await new Promise<void>((res) => {
+          w.bind(SC.Widget.Events.READY, () => {
+            widget = w;
+            w.getSounds((sounds: any[]) => renderTracks(sounds || []));
+            res();
+          });
+        });
+        return w;
+      })().catch((err) => {
+        list.innerHTML = '<li class="track-empty">Open SoundCloud for the latest tracks ↗</li>';
+        throw err;
       });
-      widget.bind(SC.Widget.Events.PAUSE, () => {
-        playing = false;
-        cancelAnimationFrame(rafId);
-        player.classList.remove("playing");
-        btn.setAttribute("aria-label", "Play");
-      });
-      widget.bind(SC.Widget.Events.PLAY_PROGRESS, (e: any) => {
-        basePos = e.currentPosition;
-        baseTime = performance.now();
-        if (reduceMotion || !playing) paint(e.currentPosition);
-      });
-      widget.bind(SC.Widget.Events.FINISH, () => {
-        cancelAnimationFrame(rafId);
-        basePos = 0;
-        playhead.setAttribute("transform", "translate(0 0)");
-        timeEl.textContent = `0:00 / ${fmt(duration)}`;
-      });
-      return widget;
+      return ready;
     };
 
     btn.addEventListener("click", async () => {
       try {
-        const isFirst = !widget;
         const w = await ensureWidget();
-        if (!isFirst) playing ? w.pause() : w.play();
+        playing ? w.pause() : w.play();
       } catch {
         trackEl.textContent = "Player unavailable — use the SoundCloud link";
       }
@@ -740,9 +915,22 @@ const projects = [
       if (!widget || (e.key !== "ArrowRight" && e.key !== "ArrowLeft")) return;
       e.preventDefault();
       const delta = e.key === "ArrowRight" ? 5000 : -5000;
-      widget.getPosition((pos: number) => {
-        widget.seekTo(Math.max(0, pos + delta));
-      });
+      widget.getPosition((pos: number) => widget.seekTo(Math.max(0, pos + delta)));
     });
+
+    // Warm the widget when the section nears the viewport so the track list
+    // is populated by the time it's on screen — without touching initial load.
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((en) => en.isIntersecting)) {
+            io.disconnect();
+            ensureWidget().catch(() => {});
+          }
+        },
+        { rootMargin: "200px" },
+      );
+      io.observe(section);
+    }
   }
 </script>
