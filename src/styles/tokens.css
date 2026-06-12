@@ -45,9 +45,8 @@
   --ss-bp-lg: 1080px; /* desktop (matches maxw) */
 }
 
-/* Google Fonts import (place in <head> instead if preferred):
-   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-*/
+/* Web fonts are self-hosted: @font-face declarations live in global.css,
+   files in public/fonts/ (Acre Medium, Sora 600, Inter variable 400-600). */
 
 /* --- Base typography (optional starter rules) --- */
 .ss-base {

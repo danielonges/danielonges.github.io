@@ -3,12 +3,29 @@
 
 @import "./tokens.css";
 
-/* Acre Medium, self-hosted — the hero display face (--ss-display-hero).
-   Sora remains the everyday web display face. */
+/* All three faces are self-hosted from /fonts (latin subsets, woff2 only).
+   Acre Medium is the hero display face (--ss-display-hero); Sora is the
+   everyday display face; Inter is a variable font covering body weights. */
 @font-face {
   font-family: "Acre";
   src: url("/fonts/acre-medium.woff2") format("woff2");
   font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Sora";
+  src: url("/fonts/sora-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-var.woff2") format("woff2");
+  font-weight: 400 600;
   font-style: normal;
   font-display: swap;
 }
