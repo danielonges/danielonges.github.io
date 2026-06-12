@@ -527,35 +527,58 @@ const projects = [
 
   .tracklist {
     list-style: none;
-    margin: 24px 0 0;
+    margin: 28px 0 0;
     padding: 0;
-    border-top: 1px solid var(--ss-navy-line);
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* between-row breathing room — proximity grouping */
   }
 
   .track {
+    /* reset iOS/Safari default button chrome that collapsed these to pills */
+    appearance: none;
+    -webkit-appearance: none;
     display: flex;
     align-items: center;
     gap: 14px;
     width: 100%;
-    padding: 14px 4px;
-    border: none;
-    border-bottom: 1px solid var(--ss-navy-line);
-    background: none;
+    padding: 13px 16px;
+    border: 1px solid var(--ss-navy-line);
+    border-radius: 8px;
+    background: var(--ss-navy-raised);
     text-align: left;
-    color: var(--ss-text);
     font-family: var(--ss-body);
-    font-size: 0.95rem;
+    color: var(--ss-text);
     cursor: pointer;
-    transition: color 0.15s ease;
+    transition:
+      border-color 0.15s ease,
+      background-color 0.15s ease;
   }
 
   .track:hover {
-    color: var(--ss-white);
+    border-color: var(--ss-gold);
+  }
+
+  .track[aria-current="true"] {
+    border-color: var(--ss-red);
+  }
+
+  /* Left marker: track number, swapping to a live equaliser when playing */
+  .track-marker {
+    flex: none;
+    width: 18px;
+    display: grid;
+    place-items: center;
+  }
+
+  .track-num {
+    font-size: 0.82rem;
+    color: var(--ss-text-dim);
+    font-variant-numeric: tabular-nums;
   }
 
   .track-bars {
-    flex: none;
-    display: flex;
+    display: none;
     align-items: flex-end;
     gap: 2px;
     width: 16px;
@@ -565,30 +588,30 @@ const projects = [
   .track-bars span {
     flex: 1;
     height: 40%;
-    background: var(--ss-text-dim);
+    background: var(--ss-red);
     border-radius: 1px;
   }
 
-  .track[aria-current="true"] {
-    color: var(--ss-white);
+  .track[aria-current="true"] .track-num {
+    display: none;
   }
 
-  .track[aria-current="true"] .track-bars span {
-    background: var(--ss-red);
+  .track[aria-current="true"] .track-bars {
+    display: flex;
   }
 
-  /* Equaliser animation only on the playing row */
+  /* Equaliser animates only while the current track is actually playing */
   .music-stack.playing .track[aria-current="true"] .track-bars span {
     animation: ss-eq 0.9s ease-in-out infinite alternate;
   }
 
-  .track[aria-current="true"] .track-bars span:nth-child(1) {
+  .track-bars span:nth-child(1) {
     animation-delay: -0.6s;
   }
-  .track[aria-current="true"] .track-bars span:nth-child(2) {
+  .track-bars span:nth-child(2) {
     animation-delay: -0.2s;
   }
-  .track[aria-current="true"] .track-bars span:nth-child(3) {
+  .track-bars span:nth-child(3) {
     animation-delay: -0.4s;
   }
 
@@ -607,6 +630,12 @@ const projects = [
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-weight: 600;
+    color: var(--ss-silver);
+  }
+
+  .track[aria-current="true"] .track-title {
+    color: var(--ss-white);
   }
 
   .track-plays {
@@ -617,8 +646,10 @@ const projects = [
   }
 
   .track-empty {
-    padding: 16px 4px;
-    border-bottom: 1px solid var(--ss-navy-line);
+    padding: 14px 16px;
+    border: 1px solid var(--ss-navy-line);
+    border-radius: 8px;
+    background: var(--ss-navy-raised);
     font-size: 0.9rem;
     color: var(--ss-text-dim);
   }
@@ -804,7 +835,10 @@ const projects = [
         b.className = "track";
         b.setAttribute("aria-current", "false");
         b.innerHTML =
-          '<span class="track-bars" aria-hidden="true"><span></span><span></span><span></span></span>' +
+          '<span class="track-marker" aria-hidden="true">' +
+          `<span class="track-num">${i + 1}</span>` +
+          '<span class="track-bars"><span></span><span></span><span></span></span>' +
+          "</span>" +
           '<span class="track-title"></span><span class="track-plays"></span>';
         b.querySelector(".track-title")!.textContent = s.title;
         if (typeof s.playback_count === "number") {
