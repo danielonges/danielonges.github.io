@@ -75,9 +75,9 @@ ratios per pairing are in `docs/brand-rules.md` §2.
 - Use the `.wrap` container class (max-width `--ss-maxw`, centred) for page
   sections; surfaces step `--ss-navy-deep` (page) → `--ss-navy` (sections) →
   `--ss-navy-raised` (cards), with `--ss-navy-line` borders.
-- Logo variant per context: header/footer → `horizontal/`; hero/cover →
-  `lockup/`; favicon/avatar → `icon/`; on photography use `-light` over a dark
-  area or scrim (≥4.5:1 behind the mark).
+- Logo variant per context: site header → `icon/` (owner's choice; rulebook
+  default is `horizontal/`); hero/cover → `lockup/`; favicon/avatar → `icon/`;
+  on photography use `-light` over a dark area or scrim (≥4.5:1 behind the mark).
 - The editable logo sources and the authoritative brand guide live outside
   this repo (`~/Claude/Projects/UI-UX Design/SHAEONSPACE/`); the copies in
   `public/logos/` are deployable artefacts — don't edit them in place.
