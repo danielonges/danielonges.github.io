@@ -192,9 +192,9 @@ const projects = [
               class="playhead"
               x="2"
               y="4"
-              width="4"
+              width="6"
               height="72"
-              rx="2"
+              rx="3"
               fill="var(--ss-red)"></rect>
           </svg>
           <p class="player-meta">
@@ -503,6 +503,11 @@ const projects = [
     width: 100%;
     display: block;
     cursor: pointer;
+    touch-action: none; /* let horizontal drags scrub instead of scrolling */
+  }
+
+  .waveform.dragging {
+    cursor: grabbing;
   }
 
   .player-meta {
@@ -695,19 +700,22 @@ const projects = [
     display: flex;
   }
 
-  /* Equaliser animates only while the current track is actually playing */
+  /* Equaliser animates only while the current track is actually playing.
+     The per-bar delays carry the full prefix so they out-specify the
+     animation shorthand (which would otherwise reset delay to 0 and flatten
+     all three bars into sync). Monotonic delays make a left-to-right wave. */
   .music-stack.playing .track[aria-current="true"] .track-bars span {
     animation: ss-eq 0.9s ease-in-out infinite alternate;
   }
 
-  .track-bars span:nth-child(1) {
+  .music-stack.playing .track[aria-current="true"] .track-bars span:nth-child(1) {
+    animation-delay: 0s;
+  }
+  .music-stack.playing .track[aria-current="true"] .track-bars span:nth-child(2) {
+    animation-delay: -0.3s;
+  }
+  .music-stack.playing .track[aria-current="true"] .track-bars span:nth-child(3) {
     animation-delay: -0.6s;
-  }
-  .track-bars span:nth-child(2) {
-    animation-delay: -0.2s;
-  }
-  .track-bars span:nth-child(3) {
-    animation-delay: -0.4s;
   }
 
   @keyframes ss-eq {
@@ -813,6 +821,7 @@ const projects = [
     let basePos = 0;
     let baseTime = 0;
     let rafId = 0;
+    let dragging = false;
 
     const paint = (ms: number) => {
       const p = duration ? Math.min(ms / duration, 1) : 0;
@@ -823,7 +832,7 @@ const projects = [
     };
 
     const tick = () => {
-      if (!playing) return;
+      if (!playing || dragging) return;
       paint(basePos + (performance.now() - baseTime));
       rafId = requestAnimationFrame(tick);
     };
@@ -924,6 +933,7 @@ const projects = [
           btn.setAttribute("aria-label", "Play");
         });
         w.bind(SC.Widget.Events.PLAY_PROGRESS, (e: any) => {
+          if (dragging) return; // don't fight the user's scrub
           basePos = e.currentPosition;
           baseTime = performance.now();
           if (reduceMotion || !playing) paint(e.currentPosition);
@@ -963,10 +973,43 @@ const projects = [
       if (!widget || !duration) return;
       widget.seekTo(Math.max(0, Math.min(1, ratio)) * duration);
     };
-    wave.addEventListener("click", (e) => {
+
+    // Click-drag scrubbing. A plain click is just a drag with no move, so this
+    // also covers click-to-seek — the playhead and time follow the pointer live,
+    // and we commit the seek on release.
+    const ratioAt = (clientX: number) => {
       const rect = wave.getBoundingClientRect();
-      seekTo((e.clientX - rect.left) / rect.width);
+      return Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    };
+    const paintRatio = (ratio: number) => {
+      playhead.setAttribute("transform", `translate(${(ratio * TRAVEL).toFixed(2)} 0)`);
+      wave.setAttribute("aria-valuenow", String(Math.round(ratio * 100)));
+      if (duration) timeEl.textContent = `${fmt(ratio * duration)} / ${fmt(duration)}`;
+    };
+    wave.addEventListener("pointerdown", (e) => {
+      if (!widget || !duration) return;
+      dragging = true;
+      cancelAnimationFrame(rafId);
+      wave.classList.add("dragging");
+      wave.setPointerCapture(e.pointerId);
+      paintRatio(ratioAt(e.clientX));
     });
+    wave.addEventListener("pointermove", (e) => {
+      if (dragging) paintRatio(ratioAt(e.clientX));
+    });
+    const endDrag = (e: PointerEvent) => {
+      if (!dragging) return;
+      dragging = false;
+      wave.classList.remove("dragging");
+      const ratio = ratioAt(e.clientX);
+      basePos = ratio * duration; // keep dead-reckoning in sync so it won't jump back
+      baseTime = performance.now();
+      seekTo(ratio);
+      if (wave.hasPointerCapture(e.pointerId)) wave.releasePointerCapture(e.pointerId);
+      if (playing) startTicking();
+    };
+    wave.addEventListener("pointerup", endDrag);
+    wave.addEventListener("pointercancel", endDrag);
     wave.addEventListener("keydown", (e) => {
       if (!widget || (e.key !== "ArrowRight" && e.key !== "ArrowLeft")) return;
       e.preventDefault();
