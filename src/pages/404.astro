@@ -1,0 +1,36 @@
+---
+// Not-found page — GitHub Pages serves 404.html automatically.
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Page not found — SHAEONSPACE" description="Nothing at this address.">
+  <section class="notfound">
+    <div class="wrap">
+      <p class="ss-eyebrow">404</p>
+      <h1>Nothing at this address</h1>
+      <p class="lede">The page may have moved, or never existed. The work lives on the home page.</p>
+      <a class="btn btn-primary" href="/">Back to home</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    text-align: center;
+    padding-block: 128px;
+  }
+
+  .notfound .ss-eyebrow {
+    margin: 0 0 12px;
+  }
+
+  h1 {
+    margin: 0 0 16px;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+  }
+
+  .lede {
+    max-width: 480px;
+    margin: 0 auto 36px;
+  }
+</style>

@@ -28,9 +28,11 @@ src/
 ├── layouts/
 │   └── BaseLayout.astro  Page shell: fonts, header (logo), footer (tagline)
 ├── components/
-│   └── Logo.astro        Horizontal lockup, inlined SVG, animated playhead
+│   ├── Logo.astro        Header lockup (static img)
+│   └── HeroLogo.astro    Stacked lockup, inlined SVG, animated playhead
 └── pages/
-    └── index.astro       Placeholder home
+    ├── index.astro       One-page home: hero → code → photography → music → contact
+    └── 404.astro         Branded not-found page
 public/
 ├── favicon.svg           Brand icon (the small-scale mark)
 └── logos/                lockup/ horizontal/ wordmark/ icon/ — each in
