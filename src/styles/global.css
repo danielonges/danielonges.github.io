@@ -111,7 +111,9 @@ hr {
   padding-block: 8px;
   font-family: var(--ss-display-hero); /* Acre Medium — already preloaded for the hero */
   font-weight: 500; /* Acre's native weight — no synthetic bolding */
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em; /* all-caps display tracking, per the brand */
   color: var(--ss-text);
 }
 
