@@ -109,8 +109,9 @@ hr {
 /* Header navigation links (slotted into BaseLayout from pages) */
 .nav-link {
   padding-block: 8px;
-  font-weight: 500;
-  font-size: 0.92rem;
+  font-family: var(--ss-display-hero); /* Acre Medium — already preloaded for the hero */
+  font-weight: 500; /* Acre's native weight — no synthetic bolding */
+  font-size: 0.95rem;
   color: var(--ss-text);
 }
 
