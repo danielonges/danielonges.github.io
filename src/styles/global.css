@@ -3,6 +3,16 @@
 
 @import "./tokens.css";
 
+/* Acre Medium, self-hosted — the hero display face (--ss-display-hero).
+   Outfit remains the everyday web display face. */
+@font-face {
+  font-family: "Acre";
+  src: url("/fonts/acre-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -71,6 +81,64 @@ a:hover {
 hr {
   border: none;
   border-top: 1px solid var(--ss-navy-line);
+}
+
+/* Header navigation links (slotted into BaseLayout from pages) */
+.nav-link {
+  padding-block: 8px;
+  font-weight: 500;
+  font-size: 0.92rem;
+  color: var(--ss-text);
+}
+
+.nav-link:hover {
+  color: var(--ss-white);
+}
+
+/* Buttons — solid primary, outline secondary; horizontal padding ≈ 2× vertical */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-family: var(--ss-body);
+  font-weight: 600;
+  font-size: 1rem;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.btn-primary {
+  /* navy-deep on gold: 5.1:1 — passes AA for normal text */
+  background: var(--ss-gold);
+  color: var(--ss-navy-deep);
+}
+
+.btn-primary:hover {
+  background: var(--ss-gold-bright);
+  color: var(--ss-navy-deep);
+}
+
+.btn-primary:active {
+  background: var(--ss-gold);
+}
+
+.btn-secondary {
+  border-color: var(--ss-navy-line);
+  color: var(--ss-silver);
+}
+
+.btn-secondary:hover {
+  border-color: var(--ss-text-dim);
+  color: var(--ss-white);
+}
+
+.btn-secondary:active {
+  border-color: var(--ss-silver);
 }
 
 @media (prefers-reduced-motion: reduce) {

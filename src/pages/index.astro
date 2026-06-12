@@ -1,29 +1,192 @@
 ---
-// Placeholder home — establishes the brand foundation for pages to come.
+// Home — one page, three crafts. Section order and area express rank:
+// code leads, photography (light) second, music (sound) third.
 import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroLogo from "../components/HeroLogo.astro";
+
+const featured = {
+  name: "Countbeans",
+  description:
+    "A Telegram bot that tracks and splits group expenses inside the chat where they happen — no separate app, no spreadsheet maths.",
+  stack: "Python · Telegram Bot API",
+  status: "Active · 2026",
+  href: "https://github.com/danielonges/countbeans",
+};
+
+const projects = [
+  {
+    name: "The Kettle Gourmet ERP",
+    description:
+      "Order, inventory and B2B storefront tooling for a snack brand — the quiet systems that keep a business moving.",
+    stack: "React · JavaScript",
+    href: "https://github.com/danielonges/tkg-fe",
+  },
+  {
+    name: "Visa × NUS Hackers workshop",
+    description:
+      "Materials for a hands-on developer workshop, run in collaboration with Visa and NUS Hackers.",
+    stack: "Workshop · Teaching",
+    href: "https://github.com/danielonges/hackers-dwotcl",
+  },
+  {
+    name: "SHAEONSPACE",
+    description:
+      "This site — a brand system carried into code: design tokens, an animated mark and static Astro output.",
+    stack: "Astro · Design tokens",
+  },
+];
 ---
 
 <BaseLayout>
+  <Fragment slot="nav">
+    <a class="nav-link" href="#code">Code</a>
+    <a class="nav-link" href="#photography">Photography</a>
+    <a class="nav-link" href="#music">Music</a>
+    <a class="nav-link" href="#contact">Contact</a>
+  </Fragment>
+
   <section class="hero">
     <div class="wrap">
-      <img
-        src="/logos/lockup/shaeonspace-logo.svg"
-        alt="SHAEONSPACE — brackets, camera and waveform mark"
-        class="hero-mark"
-        width="220"
-        height="180"
-      />
-      <p class="eyebrow">Engineer &amp; creator</p>
+      <div class="hero-mark">
+        <HeroLogo />
+      </div>
+      <p class="ss-eyebrow">Engineer &amp; creator</p>
       <h1>Building in code, light &amp; sound</h1>
       <p class="lede">
-        The personal site of Daniel Ong — a software engineer who builds across three mediums: code,
-        light, and sound. Work in progress; the foundation is set.
+        The personal site of Daniel Ong — a software engineer with a photographer's eye and a
+        producer's timing. Code leads; light and sound follow.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#code">View the work</a>
+        <a class="btn btn-secondary" href="#contact">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="code" class="section">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="ss-eyebrow">01 · Code</p>
+        <h2>Software engineering</h2>
+        <p class="section-intro">
+          The lead discipline — tools and products built to remove friction, with nothing arbitrary
+          left in.
+        </p>
+      </header>
+
+      <article class="card card-featured">
+        <div class="featured-body">
+          <p class="ss-eyebrow featured-label">Featured</p>
+          <h3>{featured.name}</h3>
+          <p>{featured.description}</p>
+          <a class="card-link" href={featured.href}>
+            View on GitHub<span class="arrow" aria-hidden="true">&nbsp;→</span>
+          </a>
+        </div>
+        <dl class="featured-meta">
+          <div>
+            <dt>Stack</dt>
+            <dd>{featured.stack}</dd>
+          </div>
+          <div>
+            <dt>Status</dt>
+            <dd>{featured.status}</dd>
+          </div>
+        </dl>
+      </article>
+
+      <div class="project-grid">
+        {
+          projects.map((p) => (
+            <article class="card">
+              <h3>{p.name}</h3>
+              <p>{p.description}</p>
+              <p class="card-meta">{p.stack}</p>
+              {p.href ? (
+                <a class="card-link" href={p.href}>
+                  View on GitHub<span class="arrow" aria-hidden="true">&nbsp;→</span>
+                </a>
+              ) : (
+                <p class="card-note">You're looking at it.</p>
+              )}
+            </article>
+          ))
+        }
+      </div>
+
+      <p class="section-foot">
+        <a class="card-link" href="https://github.com/danielonges">
+          More on GitHub<span class="arrow" aria-hidden="true">&nbsp;→</span>
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <section id="photography" class="section band">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="ss-eyebrow">02 · Light</p>
+        <h2>Photography</h2>
+        <p class="section-intro">
+          The second craft — frames made with the same patience as the code.
+        </p>
+      </header>
+
+      <div class="frames" aria-hidden="true">
+        <figure class="frame"></figure>
+        <figure class="frame"></figure>
+        <figure class="frame"></figure>
+      </div>
+      <p class="frames-note">Selects in curation; the first set lands here soon.</p>
+    </div>
+  </section>
+
+  <section id="music" class="section">
+    <div class="wrap music-inner">
+      <header class="section-head music-head">
+        <p class="ss-eyebrow">03 · Sound</p>
+        <h2>Music</h2>
+        <p class="section-intro">
+          The third craft — productions and mixes in the works. The first release lands here.
+        </p>
+        <p class="frames-note">Streaming links to follow.</p>
+      </header>
+
+      <svg class="waveform" viewBox="0 0 240 80" role="img" aria-label="Audio waveform motif">
+        <rect x="8" y="31" width="6" height="18" rx="3" fill="var(--ss-gold)"></rect>
+        <rect x="26" y="25" width="6" height="30" rx="3" fill="var(--ss-gold)"></rect>
+        <rect x="44" y="18" width="6" height="44" rx="3" fill="var(--ss-gold)"></rect>
+        <rect x="62" y="12" width="6" height="56" rx="3" fill="var(--ss-gold)"></rect>
+        <rect x="80" y="20" width="6" height="40" rx="3" fill="var(--ss-gold)"></rect>
+        <rect x="98" y="8" width="6" height="64" rx="3" fill="var(--ss-gold)"></rect>
+        <rect x="116" y="16" width="6" height="48" rx="3" fill="var(--ss-gold)"></rect>
+        <rect x="134" y="25" width="6" height="30" rx="3" fill="var(--ss-gold)"></rect>
+        <rect x="157" y="4" width="4" height="72" rx="2" fill="var(--ss-red)"></rect>
+        <rect x="170" y="14" width="6" height="52" rx="3" fill="var(--ss-gold)"></rect>
+        <rect x="188" y="22" width="6" height="36" rx="3" fill="var(--ss-gold)"></rect>
+        <rect x="206" y="28" width="6" height="24" rx="3" fill="var(--ss-gold)"></rect>
+        <rect x="224" y="32" width="6" height="16" rx="3" fill="var(--ss-gold)"></rect>
+      </svg>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <p class="ss-eyebrow">Contact</p>
+      <h2>Get in touch</h2>
+      <p class="section-intro contact-intro">
+        For work, collaborations, or a good conversation about any of the three crafts.
+      </p>
+      <a class="contact-mail" href="mailto:danielonges@gmail.com">danielonges@gmail.com</a>
+      <p class="contact-alt">
+        <a href="https://github.com/danielonges">GitHub ↗</a>
       </p>
     </div>
   </section>
 </BaseLayout>
 
 <style>
+  /* --- Hero --- */
   .hero {
     background: var(--ss-navy);
     border-bottom: 1px solid var(--ss-navy-line);
@@ -32,30 +195,302 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   .hero-mark {
-    /* stacked lockup at 220px — comfortably above the 120px minimum,
-		   with the section padding providing clear space */
-    width: 220px;
-    height: auto;
+    display: inline-block;
     margin-bottom: 40px;
   }
 
-  .eyebrow {
+  .hero .ss-eyebrow {
     margin: 0 0 12px;
-    font-weight: 600;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: var(--ss-track-eyebrow);
-    color: var(--ss-gold);
   }
 
   h1 {
     margin: 0 0 20px;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-family: var(--ss-display-hero);
+    font-weight: 500; /* Acre Medium's native weight — avoids synthetic bolding */
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
   }
 
   .lede {
     max-width: 560px;
-    margin-inline: auto;
+    margin: 0 auto;
+    font-size: 1.0625rem;
     color: var(--ss-text);
+  }
+
+  .cta-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 36px;
+  }
+
+  /* --- Section scaffolding --- */
+  .section {
+    padding-block: 96px;
+  }
+
+  .band {
+    background: var(--ss-navy);
+    border-block: 1px solid var(--ss-navy-line);
+  }
+
+  .section-head {
+    margin-bottom: 48px;
+  }
+
+  .section-head .ss-eyebrow {
+    margin: 0 0 12px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .section-intro {
+    max-width: 620px;
+    margin: 16px 0 0;
+  }
+
+  /* --- Cards (outlined on dark; raised surface) --- */
+  .card {
+    background: var(--ss-navy-raised);
+    border: 1px solid var(--ss-navy-line);
+    border-radius: 8px;
+    padding: 32px;
+    transition: border-color 0.15s ease;
+  }
+
+  .card:hover {
+    border-color: var(--ss-gold);
+  }
+
+  .card h3 {
+    margin: 0 0 10px;
+    font-size: 1.05rem;
+  }
+
+  .card p {
+    margin: 0 0 14px;
+  }
+
+  .card-meta {
+    font-size: 0.85rem;
+    color: var(--ss-text-dim);
+  }
+
+  .card-note {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--ss-text-dim);
+  }
+
+  .card-link {
+    display: inline-block;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--ss-silver);
+  }
+
+  .card-link:hover {
+    color: var(--ss-white);
+  }
+
+  .arrow {
+    display: inline-block;
+    transition: transform 0.15s ease;
+  }
+
+  .card-link:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  /* --- Featured project --- */
+  .card-featured {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 48px;
+    margin-bottom: 24px;
+  }
+
+  .featured-label {
+    margin: 0 0 14px;
+  }
+
+  .card-featured h3 {
+    font-size: 1.35rem;
+    color: var(--ss-white);
+  }
+
+  .card-featured .featured-body p {
+    max-width: 480px;
+  }
+
+  .featured-meta {
+    margin: 0;
+    align-self: center;
+    display: grid;
+    gap: 20px;
+  }
+
+  .featured-meta dt {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ss-text-dim);
+    margin-bottom: 4px;
+  }
+
+  .featured-meta dd {
+    margin: 0;
+    color: var(--ss-text);
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .section-foot {
+    margin: 32px 0 0;
+    text-align: right;
+  }
+
+  /* --- Photography (designed curation state — swap in <img> as selects land) --- */
+  .frames {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .frame {
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    border: 1px solid var(--ss-navy-line);
+    border-radius: 8px;
+    background: linear-gradient(165deg, var(--ss-navy-raised), var(--ss-navy) 55%, var(--ss-navy-deep));
+  }
+
+  .frame:nth-child(2) {
+    background: linear-gradient(200deg, var(--ss-navy-raised), var(--ss-navy) 50%, var(--ss-navy-deep));
+  }
+
+  .frame:nth-child(3) {
+    background: linear-gradient(135deg, var(--ss-navy-raised), var(--ss-navy) 60%, var(--ss-navy-deep));
+  }
+
+  .frames-note {
+    margin: 20px 0 0;
+    font-size: 0.85rem;
+    color: var(--ss-text-dim);
+  }
+
+  /* --- Music (compact: lowest rank) --- */
+  .music-inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .music-head {
+    margin-bottom: 0;
+  }
+
+  .music-head .frames-note {
+    margin-top: 12px;
+  }
+
+  .waveform {
+    width: 100%;
+    max-width: 300px;
+    justify-self: end;
+  }
+
+  /* --- Contact --- */
+  .contact {
+    padding-block: 96px;
+    border-top: 1px solid var(--ss-navy-line);
+    text-align: center;
+  }
+
+  .contact .ss-eyebrow {
+    margin: 0 0 12px;
+  }
+
+  .contact-intro {
+    margin-inline: auto;
+  }
+
+  .contact-mail {
+    /* gold display type ≥24px — the approved large-text accent use */
+    display: inline-block;
+    margin-top: 28px;
+    font-family: var(--ss-display);
+    font-weight: 600;
+    font-size: 1.6rem;
+    color: var(--ss-gold);
+  }
+
+  .contact-mail:hover {
+    color: var(--ss-gold-bright);
+    text-decoration: underline;
+    text-underline-offset: 6px;
+  }
+
+  .contact-alt {
+    margin: 20px 0 0;
+    font-size: 0.95rem;
+  }
+
+  /* --- Responsive --- */
+  @media (max-width: 768px) {
+    .hero,
+    .section,
+    .contact {
+      padding-block: 64px;
+    }
+
+    .card-featured {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .featured-meta {
+      align-self: start;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .project-grid,
+    .frames {
+      grid-template-columns: 1fr;
+    }
+
+    .frame {
+      aspect-ratio: 3 / 2;
+    }
+
+    .music-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .waveform {
+      justify-self: start;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .cta-row {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .arrow {
+      transition: none;
+    }
   }
 </style>

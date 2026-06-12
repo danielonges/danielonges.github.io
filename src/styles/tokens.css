@@ -27,6 +27,7 @@
 
   /* --- Type --- */
   --ss-display: "Outfit", "Acre", system-ui, sans-serif;
+  --ss-display-hero: "Acre", "Outfit", system-ui, sans-serif; /* hero display only — self-hosted Acre Medium (500), Outfit fallback */
   --ss-body: "Inter", system-ui, -apple-system, sans-serif;
 
   /* --- Tracking (letter-spacing) --- */

@@ -23,6 +23,7 @@ const {
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/acre-medium.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -32,6 +33,7 @@ const {
     <title>{title}</title>
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="wrap header-inner">
         <Logo />
@@ -41,7 +43,7 @@ const {
       </div>
     </header>
 
-    <main>
+    <main id="main">
       <slot />
     </main>
 
@@ -55,6 +57,22 @@ const {
 </html>
 
 <style>
+  .skip-link {
+    position: absolute;
+    top: -56px;
+    left: 16px;
+    z-index: 10;
+    padding: 12px 20px;
+    border-radius: 0 0 6px 6px;
+    background: var(--ss-gold);
+    color: var(--ss-navy-deep);
+    font-weight: 600;
+  }
+
+  .skip-link:focus {
+    top: 0;
+  }
+
   .site-header {
     background: var(--ss-navy);
     border-bottom: 1px solid var(--ss-navy-line);
@@ -71,6 +89,17 @@ const {
   .site-nav {
     display: flex;
     gap: 28px;
+  }
+
+  @media (max-width: 480px) {
+    .header-inner {
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .site-nav {
+      gap: 20px;
+    }
   }
 
   main {
