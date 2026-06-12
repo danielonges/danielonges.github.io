@@ -749,12 +749,6 @@ const projects = [
     fill: currentColor;
   }
 
-  /* Fixed-width slot holds the play icon at a constant x; the number is
-     right-aligned within it so the digits line up on the card's right edge. */
-  .play-count-num {
-    min-width: 3.5ch;
-    text-align: right;
-  }
 
   .track-empty {
     padding: 14px 16px;
@@ -867,8 +861,8 @@ const projects = [
         if (typeof s.playback_count === "number") {
           const plays = b.querySelector(".track-plays")!;
           plays.innerHTML =
-            '<svg class="play-count-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.5v11l9-5.5z"/></svg>' +
-            '<span class="play-count-num"></span>';
+            '<span class="play-count-num"></span>' +
+            '<svg class="play-count-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.5v11l9-5.5z"/></svg>';
           plays.querySelector(".play-count-num")!.textContent = fmtPlays(s.playback_count);
           plays.setAttribute("aria-label", `${s.playback_count} plays`);
         }
