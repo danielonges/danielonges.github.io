@@ -525,6 +525,101 @@ const projects = [
     font-variant-numeric: tabular-nums;
   }
 
+  /* Track-list card styles are global (see the is:global block below) —
+     the rows are created in JS, so scoped rules would never match them. */
+
+  /* --- Contact --- */
+  .contact {
+    padding-block: 96px;
+    border-top: 1px solid var(--ss-navy-line);
+    text-align: center;
+  }
+
+  .contact .ss-eyebrow {
+    margin: 0 0 12px;
+  }
+
+  .contact-intro {
+    margin-inline: auto;
+  }
+
+  .contact-mail {
+    /* gold display type ≥24px — the approved large-text accent use */
+    display: inline-block;
+    margin-top: 28px;
+    font-family: var(--ss-display);
+    font-weight: 600;
+    font-size: 1.6rem;
+    color: var(--ss-gold);
+  }
+
+  .contact-mail:hover {
+    color: var(--ss-gold-bright);
+    text-decoration: underline;
+    text-underline-offset: 6px;
+  }
+
+  .contact-alt {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin: 20px 0 0;
+    font-size: 0.95rem;
+  }
+
+  /* --- Responsive --- */
+  @media (max-width: 768px) {
+    .hero,
+    .section,
+    .contact {
+      padding-block: 64px;
+    }
+
+    .card-featured {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .featured-meta {
+      align-self: start;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .project-grid,
+    .frames {
+      grid-template-columns: 1fr;
+    }
+
+    .frame {
+      aspect-ratio: 3 / 2;
+    }
+
+    .music-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .music-stack {
+      justify-self: start;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .cta-row {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .arrow {
+      transition: none;
+    }
+  }
+</style>
+
+<!-- Track-list styles: global because the rows are injected by JS at runtime
+     and never carry Astro's scoped data attribute. -->
+<style is:global>
   .tracklist {
     list-style: none;
     margin: 28px 0 0;
@@ -658,94 +753,6 @@ const projects = [
     .music-stack.playing .track[aria-current="true"] .track-bars span {
       animation: none;
       height: 70%;
-    }
-  }
-
-  /* --- Contact --- */
-  .contact {
-    padding-block: 96px;
-    border-top: 1px solid var(--ss-navy-line);
-    text-align: center;
-  }
-
-  .contact .ss-eyebrow {
-    margin: 0 0 12px;
-  }
-
-  .contact-intro {
-    margin-inline: auto;
-  }
-
-  .contact-mail {
-    /* gold display type ≥24px — the approved large-text accent use */
-    display: inline-block;
-    margin-top: 28px;
-    font-family: var(--ss-display);
-    font-weight: 600;
-    font-size: 1.6rem;
-    color: var(--ss-gold);
-  }
-
-  .contact-mail:hover {
-    color: var(--ss-gold-bright);
-    text-decoration: underline;
-    text-underline-offset: 6px;
-  }
-
-  .contact-alt {
-    display: flex;
-    justify-content: center;
-    gap: 28px;
-    margin: 20px 0 0;
-    font-size: 0.95rem;
-  }
-
-  /* --- Responsive --- */
-  @media (max-width: 768px) {
-    .hero,
-    .section,
-    .contact {
-      padding-block: 64px;
-    }
-
-    .card-featured {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-
-    .featured-meta {
-      align-self: start;
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .project-grid,
-    .frames {
-      grid-template-columns: 1fr;
-    }
-
-    .frame {
-      aspect-ratio: 3 / 2;
-    }
-
-    .music-inner {
-      grid-template-columns: 1fr;
-    }
-
-    .music-stack {
-      justify-self: start;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .cta-row {
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .arrow {
-      transition: none;
     }
   }
 </style>
