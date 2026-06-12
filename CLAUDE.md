@@ -15,6 +15,9 @@ npm run build      # production build to ./dist/
 npm run preview    # preview the build
 ```
 
+**Pushing to `main` deploys to production** — GitHub Pages at
+https://danielonges.github.io via `.github/workflows/deploy.yml`.
+
 ## Layout
 
 ```
