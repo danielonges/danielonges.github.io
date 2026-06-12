@@ -749,10 +749,11 @@ const projects = [
     fill: currentColor;
   }
 
-  /* Fixed-width number slot keeps every play icon at the same x position */
+  /* Fixed-width slot holds the play icon at a constant x; the number is
+     right-aligned within it so the digits line up on the card's right edge. */
   .play-count-num {
     min-width: 3.5ch;
-    text-align: left;
+    text-align: right;
   }
 
   .track-empty {
