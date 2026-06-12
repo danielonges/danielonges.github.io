@@ -1,6 +1,5 @@
 ---
 // Stacked lockup inlined so the red playhead can animate in the hero.
-// Sweep distances are calibrated for ~220px display width.
 ---
 
 <div class="hero-logo" role="img" aria-label="SHAEONSPACE">
@@ -82,8 +81,8 @@
     width: 220px;
     height: auto;
     display: block;
-    /* calibrate sweep to the waveform width at 220px display size */
-    --ss-sweep-start: -26px;
-    --ss-sweep-end: 60px;
+    /* Sweep distances come from the tokens.css defaults (-34.6px / 80.6px),
+       which are in the SVG's own user units — CSS transforms on SVG elements
+       ignore the viewBox-to-display scale, so no per-size calibration. */
   }
 </style>
