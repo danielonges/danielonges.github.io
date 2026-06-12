@@ -39,7 +39,8 @@ docs/
 ## Brand rules (load-bearing — read docs/brand-rules.md before styling)
 
 The brand is dark-first: navy surfaces, silver text, gold accents, set in
-Outfit (display) + Inter (body). The non-negotiables:
+Sora (display) + Inter (body), with self-hosted Acre Medium on the hero h1
+only (`--ss-display-hero`). The non-negotiables:
 
 1. **All colour goes through `var(--ss-*)` tokens** from `src/styles/tokens.css`.
    Never type a raw brand hex anywhere else.

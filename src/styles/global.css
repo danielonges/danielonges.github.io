@@ -4,7 +4,7 @@
 @import "./tokens.css";
 
 /* Acre Medium, self-hosted — the hero display face (--ss-display-hero).
-   Outfit remains the everyday web display face. */
+   Sora remains the everyday web display face. */
 @font-face {
   font-family: "Acre";
   src: url("/fonts/acre-medium.woff2") format("woff2");
@@ -33,8 +33,7 @@ body {
 }
 
 h1,
-h2,
-h3 {
+h2 {
   font-family: var(--ss-display);
   font-weight: 600;
   text-transform: uppercase;
@@ -44,9 +43,16 @@ h3 {
 h1 {
   letter-spacing: var(--ss-track-display);
 }
-h2,
-h3 {
+h2 {
   letter-spacing: var(--ss-track-section);
+  color: var(--ss-silver);
+}
+
+/* H3 reads rather than shouts — caps stay reserved for H1/H2 and eyebrows */
+h3 {
+  font-family: var(--ss-display);
+  font-weight: 600;
+  letter-spacing: 0;
   color: var(--ss-silver);
 }
 

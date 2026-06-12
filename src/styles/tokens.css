@@ -26,8 +26,8 @@
   --ss-text-dim: #9aa1aa; /* captions & secondary labels (AA, 4.9:1 on navy) */
 
   /* --- Type --- */
-  --ss-display: "Outfit", "Acre", system-ui, sans-serif;
-  --ss-display-hero: "Acre", "Outfit", system-ui, sans-serif; /* hero display only — self-hosted Acre Medium (500), Outfit fallback */
+  --ss-display: "Sora", "Acre", system-ui, sans-serif;
+  --ss-display-hero: "Acre", "Sora", system-ui, sans-serif; /* hero display only — self-hosted Acre Medium (500), Sora fallback */
   --ss-body: "Inter", system-ui, -apple-system, sans-serif;
 
   /* --- Tracking (letter-spacing) --- */
@@ -46,7 +46,7 @@
 }
 
 /* Google Fonts import (place in <head> instead if preferred):
-   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 */
 
 /* --- Base typography (optional starter rules) --- */

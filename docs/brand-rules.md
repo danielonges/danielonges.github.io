@@ -88,12 +88,12 @@ reading routes onto silver and white.
 ## 3. Typography
 
 **Two-tier font strategy.** Print/hero: Acre (display) + Myriad Variable
-Concept (text), via Adobe Fonts. Web/everywhere: **Outfit** (geometric
+Concept (text), via Adobe Fonts. Web/everywhere: **Sora** (geometric
 display, Acre-like) + **Inter** (humanist, variable, superb on screen) from
 Google Fonts — zero licensing friction. Always specify the full stack:
 
 ```css
-font-family: "Outfit", "Acre", system-ui, sans-serif;            /* display */
+font-family: "Sora", "Acre", system-ui, sans-serif;              /* display */
 font-family: "Inter", system-ui, -apple-system, sans-serif;       /* body */
 ```
 
@@ -101,8 +101,9 @@ font-family: "Inter", system-ui, -apple-system, sans-serif;       /* body */
 
 | Style | Font & weight | Case | Tracking | Colour |
 |---|---|---|---|---|
-| Display / H1 | Outfit 600 | ALL-CAPS | +0.04em | White or gold (display sizes only) |
-| H2 / Section | Outfit 600 | ALL-CAPS | +0.05em | Silver |
+| Display / H1 | Sora 600 | ALL-CAPS | +0.04em | White or gold (display sizes only) |
+| H2 / Section | Sora 600 | ALL-CAPS | +0.05em | Silver |
+| H3 / Card title | Sora 600 | Sentence | 0 | Silver |
 | Eyebrow / Subtitle | Inter 600, small | ALL-CAPS | **+0.28em** | Gold |
 | Body | Inter 400, ≥16px | Sentence | **0** | Text Silver `#C9CDD2`, line-height ≈1.65 |
 | Caption | Inter 400, small | Sentence | 0 | Text Dim |
