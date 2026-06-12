@@ -1,7 +1,8 @@
 # shaeonspace
 
 Personal brand website of Daniel Ong — **SHAEONSPACE**, *building in code,
-light & sound*. Built with [Astro](https://astro.build).
+light & sound*. Built with [Astro](https://astro.build); deploys to GitHub
+Pages on every push to `main`.
 
 ## Commands
 
@@ -26,8 +27,9 @@ docs/brand-rules.md       The full brand rulebook
 
 ## Brand
 
-The visual system is SHAEONSPACE v2.0 — dark-first navy/silver/gold, Outfit +
-Inter, with a logo fusing code brackets, a camera, and an audio waveform.
+The visual system is SHAEONSPACE v2.0 — dark-first navy/silver/gold, Sora +
+Inter (self-hosted Acre on the hero), with a logo fusing code brackets, a
+camera, and an audio waveform.
 All colour routes through the `--ss-*` tokens; the rules (colour roles,
 verified contrast, type scale, logo usage, motion) are documented in
 `docs/brand-rules.md` and enforced via `CLAUDE.md` for agent-assisted work.
