@@ -1,16 +1,18 @@
 ---
-// Header logo — the icon mark as a static <img> (site owner's call over the
-// rulebook's horizontal-lockup default; icon holds to 30px, this is 36px).
-// The one animated playhead lives in the hero (HeroLogo.astro).
+// Header logo — icon mark + the official wordmark SVG (owner's choice over
+// the rulebook's horizontal-lockup default; the wordmark is never re-set in
+// a font, so it stays an artefact). The animated playhead lives in the hero.
 ---
 
 <a href="/" class="site-logo" aria-label="SHAEONSPACE — home">
-  <img src="/logos/icon/element-icon.svg" alt="SHAEONSPACE" height="36" />
+  <img src="/logos/icon/element-icon.svg" alt="" height="36" />
+  <img src="/logos/wordmark/shaeonspace-wordmark.svg" alt="SHAEONSPACE" height="14" />
 </a>
 
 <style>
   .site-logo {
     display: inline-flex;
     align-items: center;
+    gap: 14px;
   }
 </style>
