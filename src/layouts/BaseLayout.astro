@@ -19,6 +19,22 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL("/og-image.png", Astro.site);
 // theme-color mirrors --ss-navy-deep; meta tags can't reference CSS tokens
 const themeColor = "#1e2630";
+
+// Structured data: lets search engines connect "Daniel Ong" across profiles.
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Daniel Ong",
+  url: Astro.site?.href,
+  jobTitle: "Software engineer",
+  description: "Engineer & creator — building in code, light & sound.",
+  image: ogImage.href,
+  sameAs: [
+    "https://github.com/danielonges",
+    "https://www.linkedin.com/in/daniel-ong-9b5111206",
+    "https://soundcloud.com/user-738379571",
+  ],
+};
 ---
 
 <html lang="en">
@@ -47,6 +63,7 @@ const themeColor = "#1e2630";
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(personSchema)} />
     <link rel="preload" href="/fonts/acre-medium.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/sora-600.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin />
