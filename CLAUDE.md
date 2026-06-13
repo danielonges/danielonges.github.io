@@ -13,7 +13,12 @@ npm install        # once
 npm run dev        # localhost:4321
 npm run build      # production build to ./dist/
 npm run preview    # preview the build
+npm run shot -- <url> <out.png> [w] [h]   # headless screenshot (FULL=1 for
+                   # full page; one-time: npx playwright-core install chromium)
 ```
+
+Verify visual changes with `npm run shot` against a local server before
+pushing — scoped-CSS and runtime-JS issues don't show up in static review.
 
 **Pushing to `main` deploys to production** — GitHub Pages at
 https://danielonges.github.io via `.github/workflows/deploy.yml`.
