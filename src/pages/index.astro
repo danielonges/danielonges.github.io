@@ -190,11 +190,11 @@ const projects = [
             <rect x="224" y="32" width="6" height="16" rx="3" fill="var(--ss-gold)"></rect>
             <rect
               class="playhead"
-              x="8"
+              x="7.5"
               y="4"
-              width="6"
+              width="7"
               height="72"
-              rx="3"
+              rx="3.5"
               fill="var(--ss-red)"></rect>
           </svg>
           <p class="player-meta">
@@ -791,8 +791,9 @@ const projects = [
   const section = document.querySelector<HTMLElement>("#music");
 
   if (stack && btn && wave && playhead && trackEl && timeEl && list && section) {
-    // Playhead base x=8 = first bar; travel 216 lands it on the last bar
-    // (x=224). Both are width 6, so it exactly covers the end bars at 0% / 100%.
+    // Playhead (width 7) is centred on the bars (centre 11 = first bar centre);
+    // travel 216 moves its centre to 227 = last bar centre. The half-unit
+    // overhang each side fully covers the width-6 end bars with no edge bleed.
     const TRAVEL = 216;
     let widget: any = null;
     let ready: Promise<any> | null = null;
